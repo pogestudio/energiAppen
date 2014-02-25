@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1171" systemVersion="11E53" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="EAFinancial" representedClassName="EAFinancial" syncable="YES">
+        <attribute name="cost" optional="YES" attributeType="Integer 64" minValueString="0" defaultValueString="0" syncable="YES"/>
+        <attribute name="payback" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="savings" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="unitForTable" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="ownerSavings" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="EASavings" inverseName="financial" inverseEntity="EASavings" syncable="YES"/>
+    </entity>
+    <entity name="EAInfoToUser" representedClassName="EAInfoToUser" syncable="YES">
+        <attribute name="sectionForTable" optional="YES" attributeType="Integer 16" minValueString="0" defaultValueString="0" syncable="YES"/>
+        <attribute name="sectionName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sortKey" optional="YES" attributeType="Integer 16" minValueString="0" defaultValueString="0" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="EASavings" representedClassName="EASavings" syncable="YES">
+        <attribute name="infoForAudit" optional="YES" attributeType="String" minValueString="0" syncable="YES"/>
+        <attribute name="infoToUser" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sectionForTable" optional="YES" attributeType="Integer 16" minValueString="0" defaultValueString="0" syncable="YES"/>
+        <attribute name="shouldBeShown" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="financial" optional="YES" minCount="1" maxCount="1" deletionRule="Cascade" destinationEntity="EAFinancial" inverseName="ownerSavings" inverseEntity="EAFinancial" syncable="YES"/>
+    </entity>
+    <entity name="EAValue" representedClassName="EAValue" syncable="YES">
+        <attribute name="sortKey" optional="YES" attributeType="Integer 16" minValueString="0" defaultValueString="0" syncable="YES"/>
+        <attribute name="typeOfValue" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="value" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="ownerPickerVariable" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="EAVariable" inverseName="valuesForPicker" inverseEntity="EAVariable" syncable="YES"/>
+        <relationship name="ownerVariable" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="EAVariable" inverseName="value" inverseEntity="EAVariable" syncable="YES"/>
+    </entity>
+    <entity name="EAVariable" representedClassName="EAVariable" parentEntity="EAVariableClass" syncable="YES">
+        <attribute name="information" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="inputDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lowerBound" optional="YES" attributeType="Integer 16" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="sectionName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="shouldShow" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
+        <attribute name="unitForTable" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="upperBound" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="usesBool" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="usesPickerView" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="usesTextField" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="whereToFindIt" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="conditionToShow" optional="YES" minCount="1" maxCount="1" deletionRule="Cascade" destinationEntity="EAVariableCondition" inverseName="ownerVariable" inverseEntity="EAVariableCondition" syncable="YES"/>
+        <relationship name="value" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="EAValue" inverseName="ownerVariable" inverseEntity="EAValue" syncable="YES"/>
+        <relationship name="valuesForPicker" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="EAValue" inverseName="ownerPickerVariable" inverseEntity="EAValue" syncable="YES"/>
+    </entity>
+    <entity name="EAVariableClass" representedClassName="EAVariableClass" isAbstract="YES" syncable="YES">
+        <attribute name="sectionForTable" optional="YES" attributeType="Integer 16" minValueString="0" defaultValueString="0" syncable="YES"/>
+        <attribute name="sortKey" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" defaultValueString="&lt;title>" syncable="YES"/>
+        <relationship name="ownerGroup" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="EAVariableGroup" inverseName="variables" inverseEntity="EAVariableGroup" syncable="YES"/>
+    </entity>
+    <entity name="EAVariableCondition" representedClassName="EAVariableCondition" syncable="YES">
+        <attribute name="condString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="condVarTitle" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="ownerVariable" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="EAVariable" inverseName="conditionToShow" inverseEntity="EAVariable" syncable="YES"/>
+    </entity>
+    <entity name="EAVariableGroup" representedClassName="EAVariableGroup" parentEntity="EAVariableClass" syncable="YES">
+        <relationship name="variables" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="EAVariableClass" inverseName="ownerGroup" inverseEntity="EAVariableClass" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="EAFinancial" positionX="99" positionY="0" width="128" height="120"/>
+        <element name="EAInfoToUser" positionX="-657" positionY="-63" width="128" height="120"/>
+        <element name="EASavings" positionX="-101" positionY="-0" width="128" height="120"/>
+        <element name="EAValue" positionX="-470" positionY="-24" width="128" height="120"/>
+        <element name="EAVariable" positionX="-200" positionY="-270" width="128" height="225"/>
+        <element name="EAVariableClass" positionX="-216" positionY="-441" width="128" height="105"/>
+        <element name="EAVariableCondition" positionX="63" positionY="-288" width="128" height="90"/>
+        <element name="EAVariableGroup" positionX="43" positionY="-432" width="128" height="60"/>
+    </elements>
+</model>
